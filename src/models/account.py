@@ -2,8 +2,8 @@ from exceptions import InsufficientFundsError
 
 
 class Account:
-    def __init__(self, account_number: str, balance: int):
-        self.account_number = account_number
+    def __init__(self, account_id: str, balance: int):
+        self.account_id = account_id
         self.balance = balance
 
     def get_balance(self):
@@ -16,7 +16,7 @@ class Account:
     def withdraw(self, amount):
         if amount > self.balance:
             raise InsufficientFundsError(
-                f"Account {self.account_number} has insufficient funds"
+                f"Account {self.account_id} has insufficient funds"
             )
         self.balance -= amount
         return self.balance
