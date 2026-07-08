@@ -55,8 +55,6 @@ EVENT_HANDLERS = {
 @app.get("/balance")
 async def get_balance(account_id: str):
     balance = service.get_balance(account_id)
-    if balance is None:
-        return JSONResponse(status_code=404, content=0)
     return JSONResponse(status_code=200, content=balance)
 
 
