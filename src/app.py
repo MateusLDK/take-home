@@ -1,8 +1,7 @@
-from fastapi import (
-    FastAPI,
-)
-from fastapi.responses import JSONResponse
+from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse, PlainTextResponse
 
+from src.models.exceptions import InexistingAccountError, InsufficientFundsError
 from src.services.account_service import AccountService
 
 app = FastAPI(title="Take Home Assignment", description="Ebanx Take Home Assignment")
@@ -14,6 +13,16 @@ def _account_response_json(account):
         "id": account.account_id,
         "balance": account.balance,
     }
+
+
+@app.exception_handler(InexistingAccountError)
+def handle_inexisting(request: Request, exc: InexistingAccountError):
+    return JSONResponse(status_code=404, content=0)
+
+
+@app.exception_handler(InsufficientFundsError)
+def handle_insuficient(request: Request, exc: InsufficientFundsError):
+    return JSONResponse(status_code=404, content=0)
 
 
 def deposit_event(event):
@@ -45,10 +54,10 @@ EVENT_HANDLERS = {
 
 @app.get("/balance")
 async def get_balance(account_id: str):
-    account = service.get_balance(account_id)
-    if account is None:
+    balance = service.get_balance(account_id)
+    if balance is None:
         return JSONResponse(status_code=404, content=0)
-    return account.balance
+    return JSONResponse(status_code=200, content=balance)
 
 
 @app.post("/event")
@@ -57,3 +66,9 @@ async def event_handler(event: dict):
     if handler is None:
         return JSONResponse(status_code=404, content=0)
     return JSONResponse(status_code=201, content=handler(event))
+
+
+@app.post("/reset")
+async def reset():
+    service.reset()
+    return PlainTextResponse("OK", status_code=200)
