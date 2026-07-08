@@ -80,3 +80,26 @@ def test_reset(accountService):
     accountService.deposit("1234", 100)
     accountService.reset()
     assert accountService.get_balance("1234") == 0
+
+
+def test_ebanx_full(accountService):
+    accountService.reset()
+
+    assert accountService.get_balance("1234") == 0
+    accountService.deposit("100", 10)
+    assert accountService.get_balance("100") == 10
+    accountService.deposit("100", 10)
+    assert accountService.get_balance("100") == 20
+
+    with pytest.raises(InexistingAccountError):
+        accountService.withdraw("200", 10)
+
+    accountService.withdraw("100", 5)
+    assert accountService.get_balance("100") == 15
+
+    origin, destination = accountService.transfer("100", "300", 15)
+    assert origin.get_balance() == 0
+    assert destination.get_balance() == 15
+
+    with pytest.raises(InexistingAccountError):
+        accountService.transfer("200", "300", 15)
