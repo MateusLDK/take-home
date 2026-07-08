@@ -9,3 +9,10 @@ class InsufficientFundsError(AccountExceptions):
 
     def __init__(self, message):
         self.message = message
+
+
+class InexistingAccountError(AccountExceptions):
+    "Exception raised when an account dont exits"
+
+    def __init__(self, message):
+        self.message = message
