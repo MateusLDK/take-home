@@ -28,7 +28,7 @@ class AccountService:
     def get_balance(self, account_id: str) -> int:
         account = self.store.get(account_id)
         if account is None:
-            return 0
+            return None
         return account.get_balance()
 
     def deposit(self, account_id: str, amount: int) -> Account:
