@@ -1,18 +1,18 @@
-class AccountExceptions(Exception):
+class AccountException(Exception):
     "Base class for account exceptions"
 
     pass
 
 
-class InsufficientFundsError(AccountExceptions):
+class InsufficientFundsError(AccountException):
     "Exception raised when an account has insufficient funds"
 
     def __init__(self, message):
-        self.message = message
+        super().__init__(message)
 
 
-class InexistingAccountError(AccountExceptions):
-    "Exception raised when an account dont exits"
+class InexistingAccountError(AccountException):
+    "Exception raised when an account does not exits"
 
     def __init__(self, message):
-        self.message = message
+        super().__init__(message)
