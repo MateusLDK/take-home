@@ -1,5 +1,5 @@
-from models.account import Account
-from models.exceptions import InexistingAccountError
+from src.models.account import Account
+from src.models.exceptions import InexistingAccountError
 
 
 class AccountStore:
