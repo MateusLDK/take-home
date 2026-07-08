@@ -1,4 +1,4 @@
-from exceptions import InsufficientFundsError
+from src.models.exceptions import InsufficientFundsError
 
 
 class Account:
