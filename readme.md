@@ -1,5 +1,10 @@
 # Take Home
 
+## Requirements
+
+Python version: 3.12+
+Pip: 26.0+
+
 ## Installation
 
 Install the service dependencies by running:
@@ -43,6 +48,21 @@ Unit tests cover the business logic (service and domain layers). The HTTP layer 
 - POST /event routes by "type" via dispatch table.
 - Domain exceptions are translated to HTTP responses via fastAPI exception handler.
 
+## Testing with curl
 
+```bash
+# Get balance
+curl "http://localhost:8000/balance?account_id=100"
 
-Built using Python 3.14
+# Deposit
+curl -X POST http://localhost:8000/event \
+  -H "Content-Type: application/json" \
+  -d '{"type":"deposit","destination":"100","amount":10}'
+
+# Withdraw
+curl -X POST http://localhost:8000/event \
+  -H "Content-Type: application/json" \
+  -d '{"type":"withdraw","origin":"100","amount":5}'
+```
+
+Interactive API docs available at `/docs` while the server is running.
